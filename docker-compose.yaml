@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: backend_app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/backend_app
+    working_dir: /backend_app
+    command: npm run dev
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend_app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/frontend_app
+    working_dir: /frontend_app
+    command: npm run dev -- --host
+    depends_on:
+      - backend
+    restart: unless-stopped
