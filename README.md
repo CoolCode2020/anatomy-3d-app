@@ -1,6 +1,9 @@
 # anatomy-3d-app
 App to help medicine students study anatomy using 3d models
 
+Frontend mit vite und JS+ SWC
+backend node js + cors (damit backen und forntend von verschiedenen Domains kommen koennen) + nodaemon ( reloads ) + express
+
 
 Stack : JavaScript React Fiber Three Blender
 
@@ -16,7 +19,7 @@ anatomy-3d-app/
 │       ├── data/             # organ metadata (JSON, localization)
 │       ├── styles/           # Tailwind/CSS/SASS
 │       └── App.jsx 
-├── backend/
+├── backend/ using Express and node
 │   └── src/
 │       ├── api/              # Express routes or REST API
 │       ├── models/           # DB models or data structure definitions
@@ -28,6 +31,7 @@ anatomy-3d-app/
 ├── docker-compose.yml
 ├── package.json
 ├── README.md
-└── .env
+└── .env                      # (optional) für Umgebungsvariablen
+
 
 To Do: yaml, docker , belnder meshes download and first look
