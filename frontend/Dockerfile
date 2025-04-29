@@ -1,6 +1,6 @@
 # Dockerfile frontend
 
-FROM node:23
+FROM node:20-alpine
 
 WORKDIR /frontend_app
 

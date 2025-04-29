@@ -1,6 +1,6 @@
 #Dockerfilel backend
 
-FROM node:23
+FROM node:20-alpine
 
 WORKDIR /backend_app
 
