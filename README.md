@@ -1,11 +1,13 @@
 # anatomy-3d-app
 App to help medicine students study anatomy using 3d models
 
-Frontend mit vite und JS+ SWC
+Frontend mit vite und JS+SWC
 backend node js + cors (damit backen und forntend von verschiedenen Domains kommen koennen) + nodaemon ( reloads ) + express
 
 
 Stack : JavaScript React Fiber Three Blender
+
+
 
 Strukturvorschlag (AI generated):
 anatomy-3d-app/

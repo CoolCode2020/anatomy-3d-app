@@ -18,7 +18,7 @@ app.use(cors(corsOptions));
 
 
 app.get("/api", (req, res) => {
-    res.json({test:["test","test"]});
+    res.json({test:["Harry","test"]});
 });
 
 app.listen(8080, () => {
