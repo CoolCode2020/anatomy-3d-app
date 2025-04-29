@@ -1,3 +1,7 @@
+
+#ignore blender
+blender/
+
 #Node.js (Backend + Frontend)
 node_modules/
 
