@@ -7,12 +7,16 @@
 const express  = require('express');
 const app = express();
 const cors = require('cors');
+const path = require('path');
 const corsOptions = {
     origin: 'http://localhost:5173',
     //methods: ['GET', 'POST'],
     //allowedHeaders: ['Content-Type']
 };
-app.use(cors(corsOptions));
+app.use(cors(corsOptions))
+;
+// Statische Modelle freigeben
+app.use('/models', express.static(path.join(__dirname, 'models')))
 
 
 
