@@ -3,6 +3,10 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+//3D stuff 
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
+import { SkeletonModel } from './components/SkeletonModel'
 
 
 
@@ -54,7 +58,16 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <div style={{ height: '100vh', width: '100vw' }}>
+      <Canvas camera={{ position: [0, 0, 3] }}>
+        <ambientLight />
+        <directionalLight position={[0, 10, 5]} intensity={1.2} />
+        <SkeletonModel />
+        <OrbitControls />
+      </Canvas>
+    </div>
     </>
+    
   )
 }
 
