@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import * as THREE from 'three'
 
 export function SkeletonModel() {
-  const { scene } = useGLTF('http://localhost:8080/models/skelet.gltf')
+  const { scene } = useGLTF('http://localhost:8080/models/skeleton.gltf')
 
   useEffect(() => {
     scene.traverse((child) => {
