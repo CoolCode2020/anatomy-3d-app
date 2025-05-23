@@ -16,6 +16,8 @@ function Loader() {
 function App() {
   const [count, setCount] = useState(0)
   const [testData, setTestData] = useState(null)
+  const [selectedBone, setSelectedBone] = useState(null)
+
 
   useEffect(() => {
     async function getTest() {
@@ -33,62 +35,77 @@ function App() {
   }, [])
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+  <>
+    {/* Logos */}
+    <div>
+      <a href="https://vite.dev" target="_blank">
+        <img src={viteLogo} className="logo" alt="Vite logo" />
+      </a>
+      <a href="https://react.dev" target="_blank">
+        <img src={reactLogo} className="logo react" alt="React logo" />
+      </a>
+    </div>
+
+    {/* Header */}
+    <h1>Vite + React</h1>
+
+    {/* Counter */}
+    <div className="card">
+      <button onClick={() => setCount((count) => count + 1)}>
+        count is {count}
+      </button>
+      <p>Edit <code>src/App.jsx</code> and save to test HMR</p>
+    </div>
+
+    {/* Backend Test */}
+    <div className="card">
+      <h2>Backend Test Data:</h2>
+      <pre>{testData ? JSON.stringify(testData, null, 2) : "Loading..."}</pre>
+    </div>
+
+    {/* Read Docs */}
+    <div className="read-the-docs">
+      Click on the Vite and React logos to learn more
+    </div>
+
+    {/* Floating UI for selected bone */}
+    {selectedBone && (
+      <div className="bone-info-panel">
+        <h3>Selected Bone:</h3>
+        <p>{selectedBone}</p>
       </div>
-      <h1>Vite + React</h1>
+    )}
 
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>Edit <code>src/App.jsx</code> and save to test HMR</p>
-      </div>
+    {/* 3D Canvas */}
+    <div style={{ height: '100vh', width: '100vw' }}>
+      <Canvas
+        camera={{ position: [0, 2, 4] }}
+        shadows
+        style={{ background: '#f0f0f0', height: '100vh', width: '100vw' }}
+      >
+        <ambientLight intensity={0.3} />
+        <directionalLight
+          position={[0, 10, 10]}
+          intensity={1.5}
+          castShadow
+          shadow-mapSize-width={1024}
+          shadow-mapSize-height={1024}
+        />
 
-      <div className="card">
-        <h2>Backend Test Data:</h2>
-        <pre>{testData ? JSON.stringify(testData, null, 2) : "Loading..."}</pre>
-      </div>
+        <Suspense fallback={<Loader />}>
+          <SkeletonModel onBoneClick={setSelectedBone} />
+          <Circle args={[10]} rotation-x={-Math.PI / 2} receiveShadow>
+            <meshStandardMaterial color="blue" />
+          </Circle>
+        </Suspense>
 
-      <div className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </div>
-
-      <div style={{ height: '100vh', width: '100vw' }}>
-       <Canvas
-  camera={{ position: [0, 2, 4] }}
-  shadows
-  style={{ background: '#f0f0f0', height: '100vh', width: '100vw' }}
->
-  <ambientLight intensity={0.3} />
-  <directionalLight
-    position={[0, 10, 10]}
-    intensity={1.5}
-    castShadow
-    shadow-mapSize-width={1024}
-    shadow-mapSize-height={1024}
-  />
-
-  <Suspense fallback={<Loader />}>
-    <SkeletonModel />
-    <Circle args={[10]} rotation-x={-Math.PI / 2} receiveShadow>
-      <meshStandardMaterial color="blue" />
-    </Circle>
-  </Suspense>
-
-  <OrbitControls target={[0, 1, 0]} />
-  <axesHelper args={[5]} />
-  <Stats />
-</Canvas>
-      </div>
-    </>
-  )
+        <OrbitControls target={[0, 1, 0]} />
+        <axesHelper args={[5]} />
+        <Stats />
+      </Canvas>
+    </div>
+  </>
+)
 }
 
 export default App
