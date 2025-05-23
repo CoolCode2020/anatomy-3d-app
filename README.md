@@ -35,6 +35,8 @@ App to help medicine students study anatomy using 3d models
 Frontend mit vite und JS+SWC
 backend node js + cors (damit backen und forntend von verschiedenen Domains kommen koennen) + nodaemon ( reloads ) + express
 
+Browser Chrome
+
 #3D Rendering for frontend : npm install three @react-three/fiber @react-three/drei
 
 
