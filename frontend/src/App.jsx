@@ -61,25 +61,31 @@ function App() {
       </div>
 
       <div style={{ height: '100vh', width: '100vw' }}>
-        <Suspense fallback={<Loader />}>
-          <Canvas camera={{ position: [0, 2, 4] }} shadows>
-            <ambientLight intensity={0.1} />
-            <directionalLight
-              position={[0, 10, 10]}
-              intensity={10}
-              castShadow
-              shadow-mapSize-width={1024}
-              shadow-mapSize-height={1024}
-            />
-            <SkeletonModel />
-            <Circle args={[10]} rotation-x={-Math.PI / 2} receiveShadow>
-              <meshStandardMaterial color="blue" />
-            </Circle>
-            <OrbitControls target={[0, 1, 0]} />
-            <axesHelper args={[5]} />
-            <Stats />
-          </Canvas>
-        </Suspense>
+       <Canvas
+  camera={{ position: [0, 2, 4] }}
+  shadows
+  style={{ background: '#f0f0f0', height: '100vh', width: '100vw' }}
+>
+  <ambientLight intensity={0.3} />
+  <directionalLight
+    position={[0, 10, 10]}
+    intensity={1.5}
+    castShadow
+    shadow-mapSize-width={1024}
+    shadow-mapSize-height={1024}
+  />
+
+  <Suspense fallback={<Loader />}>
+    <SkeletonModel />
+    <Circle args={[10]} rotation-x={-Math.PI / 2} receiveShadow>
+      <meshStandardMaterial color="blue" />
+    </Circle>
+  </Suspense>
+
+  <OrbitControls target={[0, 1, 0]} />
+  <axesHelper args={[5]} />
+  <Stats />
+</Canvas>
       </div>
     </>
   )
