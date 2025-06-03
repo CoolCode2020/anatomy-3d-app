@@ -2,7 +2,7 @@ import { useGLTF } from '@react-three/drei'
 import { useEffect } from 'react'
 import * as THREE from 'three'
 
-export function SkeletonModel({ onBoneClick }) {
+export function SkeletonModel({ onBoneClick, selectedMesh }) {
   const { scene } = useGLTF('http://localhost:8080/models/Skelett.glb')
 
   useEffect(() => {
