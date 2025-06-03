@@ -16,7 +16,10 @@ function Loader() {
 function App() {
   const [count, setCount] = useState(0)
   const [testData, setTestData] = useState(null)
-  const [selectedBone, setSelectedBone] = useState(null)
+  // hier speichern wir die geklickten Knochen
+  const [selectedBone, setSelectedBone] = useState(null)  
+  // hier speichern wir das geklickte Mesh fuer highlight
+  const [selectedMesh, setSelectedMesh] = useState(null) 
 
 
   useEffect(() => {
