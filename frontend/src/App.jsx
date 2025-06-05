@@ -59,6 +59,9 @@ function App() {
       </button>
       <p>Edit <code>src/App.jsx</code> and save to test HMR</p>
     </div>
+    <div className="bg-yellow-200 text-center p-8 rounded">
+    ✅ Tailwind is working!
+    </div>
 
     {/* Backend Test */}
     <div className="card">
