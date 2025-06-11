@@ -46,7 +46,7 @@
 }
 
 /* Text Box fuer Skelett*/
-.bone-info-panel {
+/* .bone-info-panel {
   position: relative;
   top: 1rem;
   left: 1rem;
@@ -55,4 +55,4 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   font-family: sans-serif;
-}
+} */

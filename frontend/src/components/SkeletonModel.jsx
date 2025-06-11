@@ -1,25 +1,17 @@
 import { useGLTF } from '@react-three/drei'
-import { useEffect } from 'react'
-import * as THREE from 'three'
+import { useEffect, useRef } from 'react'
+import { setupSkeletonScene } from '../controllers/skeletonController'
 
-export function SkeletonModel({ onBoneClick, selectedMesh }) {
+export function SkeletonModel({ onBoneClick }) {
   const { scene } = useGLTF('http://localhost:8080/models/Skelett.glb')
 
+  const initializedRef = useRef(false)
+
   useEffect(() => {
-    scene.traverse((child) => {
-      if (child.isMesh) {
-        child.castShadow = true
-        child.receiveShadow = true
-
-        child.userData.name = child.name
-
-        // Call onBoneClick from props
-        child.onClick = (e) => {
-          e.stopPropagation()
-          if (onBoneClick) onBoneClick(child.name)
-        }
-      }
-    })
+    if (!initializedRef.current) {
+      setupSkeletonScene(scene, onBoneClick)
+      initializedRef.current = true
+    }
   }, [scene, onBoneClick])
 
   return (
@@ -27,11 +19,12 @@ export function SkeletonModel({ onBoneClick, selectedMesh }) {
       object={scene}
       position={[0, 1, 0]}
       onPointerDown={(e) => {
-        e.stopPropagation()
-        if (onBoneClick && e.object?.name) {
-          onBoneClick(e.object.name)
-        }
-      }}
+    e.stopPropagation()
+    console.log('[SkeletonModel] Pointer down on:', e.object.name)
+    if (onBoneClick && e.object?.name) {
+      onBoneClick(e.object.name)
+    }
+  }}
     />
   )
 }

@@ -1,117 +1,84 @@
-import { useState, useEffect, Suspense } from 'react'
+// /src/App.jsx
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Html, useProgress, Circle, Stats } from '@react-three/drei'
-import { SkeletonModel } from './components/SkeletonModel'
+// MVC Imports
+import { useBoneModel } from './models/boneModel.js'
+import { fetchTestData } from './api/backendService.js'
+import { handleBoneClick } from './controllers/boneController.js'
+import { BoneInfoPanel } from './components/BoneInfoPanel.jsx'
 
-// Loader UI while GLB is loading
-function Loader() {
-  const { progress } = useProgress()
-  return <Html center>{Math.floor(progress)}% loaded</Html>
-}
+// Component Views
+import { ViewerCanvas } from './components/ViewerCanvas.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
   const [testData, setTestData] = useState(null)
-  // hier speichern wir die geklickten Knochen
-  const [selectedBone, setSelectedBone] = useState(null)  
-  // hier speichern wir das geklickte Mesh fuer highlight
-  const [selectedMesh, setSelectedMesh] = useState(null) 
 
+  const {
+    selectedBone,
+    setSelectedBone,
+    selectedMesh,
+    setSelectedMesh
+  } = useBoneModel()
 
   useEffect(() => {
-    async function getTest() {
+    async function loadTestData() {
       try {
-        const response = await fetch("http://localhost:8080/api")
-        if (!response.ok) throw new Error("Network response was not ok")
-        const data = await response.json()
+        const data = await fetchTestData()
         setTestData(data)
       } catch (error) {
-        console.error("Error fetching data:", error)
+        console.error("Error loading backend data:", error)
       }
     }
 
-    getTest()
+    loadTestData()
   }, [])
 
   return (
-  <>
-    {/* Logos */}
-    <div>
-      <a href="https://vite.dev" target="_blank">
-        <img src={viteLogo} className="logo" alt="Vite logo" />
-      </a>
-      <a href="https://react.dev" target="_blank">
-        <img src={reactLogo} className="logo react" alt="React logo" />
-      </a>
-    </div>
-
-    {/* Header */}
-    <h1>Vite + React</h1>
-
-    {/* Counter */}
-    <div className="card">
-      <button onClick={() => setCount((count) => count + 1)}>
-        count is {count}
-      </button>
-      <p>Edit <code>src/App.jsx</code> and save to test HMR</p>
-    </div>
-    <div className="bg-yellow-200 text-center p-8 rounded">
-    ✅ Tailwind is working!
-    </div>
-
-    {/* Backend Test */}
-    <div className="card">
-      <h2>Backend Test Data:</h2>
-      <pre>{testData ? JSON.stringify(testData, null, 2) : "Loading..."}</pre>
-    </div>
-
-    {/* Read Docs */}
-    <div className="read-the-docs">
-      Click on the Vite and React logos to learn more
-    </div>
-
-    {/* Floating UI for selected bone */}
-    {selectedBone && (
-      <div className="bone-info-panel">
-        <h3>Selected Bone:</h3>
-        <p>{selectedBone}</p>
+    <>
+      {/* Logos */}
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
       </div>
-    )}
 
-    {/* 3D Canvas */}
-    <div style={{ height: '100vh', width: '100vw' }}>
-      <Canvas
-        camera={{ position: [0, 2, 4] }}
-        shadows
-        style={{ background: '#f0f0f0', height: '100vh', width: '100vw' }}
-      >
-        <ambientLight intensity={0.3} />
-        <directionalLight
-          position={[0, 10, 10]}
-          intensity={1.5}
-          castShadow
-          shadow-mapSize-width={1024}
-          shadow-mapSize-height={1024}
-        />
+      {/* Header */}
+      <h1>Vite + React</h1>
 
-        <Suspense fallback={<Loader />}>
-          <SkeletonModel onBoneClick={setSelectedBone} />
-          <Circle args={[10]} rotation-x={-Math.PI / 2} receiveShadow>
-            <meshStandardMaterial color="blue" />
-          </Circle>
-        </Suspense>
+      {/* Counter */}
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>Edit <code>src/App.jsx</code> and save to test HMR</p>
+      </div>
+      <div className="bg-yellow-200 text-center p-8 rounded">
+        ✅ Tailwind is working!
+      </div>
 
-        <OrbitControls target={[0, 1, 0]} />
-        <axesHelper args={[5]} />
-        <Stats />
-      </Canvas>
-    </div>
-  </>
-)
+      {/* Backend Test */}
+      <div className="card">
+        <h2>Backend Test Data:</h2>
+        <pre>{testData ? JSON.stringify(testData, null, 2) : "Loading..."}</pre>
+      </div>
+
+      {/* Docs Message */}
+      <div className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </div>
+      {/* Bone Info Canvas View */}
+      <BoneInfoPanel boneName={selectedBone} />
+      {/* 3D Canvas View */}
+      <ViewerCanvas onBoneClick={(bone) => handleBoneClick(bone, setSelectedBone)} />
+    </>
+  )
 }
 
 export default App
