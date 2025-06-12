@@ -68,7 +68,11 @@ anatomy-3d-app/
 ├── docker-compose.yml
 ├── package.json
 ├── README.md
+<<<<<<< HEAD
 └── .env                      # (optional) für Umgebungsvariablen
+=======
+└── .env
+>>>>>>> David_Project_Setup
 
 
 To Do: yaml, docker , belnder meshes download and first look
