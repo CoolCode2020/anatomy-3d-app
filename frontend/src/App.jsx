@@ -1,5 +1,4 @@
-// /src/App.jsx
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -8,10 +7,16 @@ import './App.css'
 import { useBoneModel } from './models/boneModel.js'
 import { fetchTestData } from './api/backendService.js'
 import { handleBoneClick } from './controllers/boneController.js'
+import Navbar from './components/Navbar'; //
 
 // Component Views
 import { ViewerCanvas } from './components/ViewerCanvas.jsx'
-import { BoneInfoPanel } from './components/BoneInfoPanel.jsx'
+import { BoneInfoPanel } from './components/BoneInfoPanel.jsx'// Loader UI while GLB is loading
+
+function Loader() {
+  const { progress } = useProgress()
+  return <Html center>{Math.floor(progress)}% loaded</Html>
+}
 
 function App() {
   const [count, setCount] = useState(0)
@@ -40,6 +45,8 @@ function App() {
 
   return (
   <>
+    {/* Navbar */}
+    <Navbar />
     {/* Logos */}
     <div>
       <a href="https://vite.dev" target="_blank">
