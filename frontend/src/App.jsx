@@ -1,6 +1,4 @@
-import { useState, useEffect, Suspensem, useRef } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 // MVC Imports
@@ -12,11 +10,6 @@ import Navbar from './components/Navbar'; //
 // Component Views
 import { ViewerCanvas } from './components/ViewerCanvas.jsx'
 import { BoneInfoPanel } from './components/BoneInfoPanel.jsx'// Loader UI while GLB is loading
-
-function Loader() {
-  const { progress } = useProgress()
-  return <Html center>{Math.floor(progress)}% loaded</Html>
-}
 
 function App() {
   const [count, setCount] = useState(0)
@@ -47,15 +40,13 @@ function App() {
   <>
     {/* Navbar */}
     <Navbar />
+
     {/* Backend Test */}
     <div className="card">
       <h2>Backend Test Data:</h2>
       <pre>{testData ? JSON.stringify(testData, null, 2) : "Loading..."}</pre>
     </div>
 
-    <div className="read-the-docs">
-      Click on the Vite and React logos to learn more
-    </div>
 
     {/* Bone Info Panel */}
     <BoneInfoPanel
