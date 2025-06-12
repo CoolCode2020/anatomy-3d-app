@@ -12,7 +12,6 @@ import { ViewerCanvas } from './components/ViewerCanvas.jsx'
 import { BoneInfoPanel } from './components/BoneInfoPanel.jsx'// Loader UI while GLB is loading
 
 function App() {
-  const [count, setCount] = useState(0)
   const [testData, setTestData] = useState(null)
   const sceneRef = useRef()
 
@@ -63,6 +62,9 @@ function App() {
       }
       selectedMesh={selectedMesh}
       sceneRef={sceneRef}
+      setSelectedBone={setSelectedBone}
+      setSelectedMesh={setSelectedMesh}
+      
     />
   </>
 )}

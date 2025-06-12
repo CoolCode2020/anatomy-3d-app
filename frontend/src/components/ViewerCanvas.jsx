@@ -10,13 +10,18 @@ function Loader() {
   return <Html center>{Math.floor(progress)}% loaded</Html>
 }
 
-export function ViewerCanvas({ onBoneClick, selectedMesh }) {
+export function ViewerCanvas({ onBoneClick, selectedMesh, sceneRef, setSelectedBone, setSelectedMesh }) {
   return (
     <div style={{ height: '100vh', width: '100vw' }}>
       <Canvas
         camera={{ position: [0, 2, 4] }}
         shadows
         style={{ background: '#f0f0f0', height: '100vh', width: '100vw' }}
+        onPointerMissed={() => {
+          setSelectedBone(null)
+          setSelectedMesh(null)
+          console.log('[ViewerCanvas] Clicked empty space → selection cleared')
+        }}
       >
         <ambientLight intensity={0.3} />
         <directionalLight
@@ -28,7 +33,7 @@ export function ViewerCanvas({ onBoneClick, selectedMesh }) {
         />
 
         <Suspense fallback={<Loader />}>
-          <SkeletonModel onBoneClick={onBoneClick} />
+          <SkeletonModel onBoneClick={onBoneClick} sceneRef={sceneRef} />
           <Circle args={[10]} rotation-x={-Math.PI / 2} receiveShadow>
             <meshStandardMaterial color="blue" />
           </Circle>
@@ -60,4 +65,7 @@ export function ViewerCanvas({ onBoneClick, selectedMesh }) {
 ViewerCanvas.propTypes = {
   onBoneClick: PropTypes.func.isRequired,
   selectedMesh: PropTypes.object, // 🆕 for Outline effect
+  sceneRef: PropTypes.object.isRequired,
+  setSelectedBone: PropTypes.func.isRequired,
+  setSelectedMesh: PropTypes.func.isRequired
 }

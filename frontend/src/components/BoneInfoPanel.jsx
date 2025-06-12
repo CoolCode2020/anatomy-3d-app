@@ -5,12 +5,16 @@ export function BoneInfoPanel({ selectedBone, sceneRef, setSelectedBone, setSele
   const [error, setError] = useState(false)
 
   function handleSearch() {
+    console.log('SceneRef exists?', !!sceneRef?.current)
     if (!sceneRef?.current) return
+    
 
     let found = null
     sceneRef.current.traverse((child) => {
       if (child.isMesh && child.name.toLowerCase() === searchTerm.toLowerCase()) {
         found = child
+        console.log('Search result:', found)
+
       }
     })
 
@@ -38,7 +42,7 @@ export function BoneInfoPanel({ selectedBone, sceneRef, setSelectedBone, setSele
       />
       <button
         onClick={handleSearch}
-        className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+        className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded w-full"
       >
         Search Bone
       </button>
