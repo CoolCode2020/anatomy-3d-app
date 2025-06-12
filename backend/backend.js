@@ -19,8 +19,10 @@ const corsOptions = {
     //methods: ['GET', 'POST'],
     //allowedHeaders: ['Content-Type']
 };
-app.use(cors(corsOptions))
-;
+app.use(cors(corsOptions));
+
+app.use(express.json()); // parse JSON request bodies
+
 // Statische Modelle freigeben
 app.use('/static', express.static(path.join(__dirname, 'static')))
 

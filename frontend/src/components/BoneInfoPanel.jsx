@@ -29,7 +29,7 @@ export function BoneInfoPanel({ selectedBone, sceneRef, setSelectedBone, setSele
   }
 
   return (
-    <div className="fixed top-4 left-4 bg-white border rounded shadow p-4 z-50 w-[280px]">
+    <div className=" top-8 left-4 bg-white border rounded shadow p-4 z-50 w-[280px]">
       <h3 className="text-lg font-bold mb-2">Selected Bone:</h3>
       <p className="text-gray-800 mb-4">{selectedBone || '—'}</p>
 

@@ -10,9 +10,14 @@ import Navbar from './components/Navbar'; //
 // Component Views
 import { ViewerCanvas } from './components/ViewerCanvas.jsx'
 import { BoneInfoPanel } from './components/BoneInfoPanel.jsx'// Loader UI while GLB is loading
+import { SkeletonModel } from './components/SkeletonModel.jsx'
+import {PopulateButton} from './components/PopulateDBSButton.jsx'
+
 
 function App() {
   const [testData, setTestData] = useState(null)
+  const [boneList, setBoneList] = useState([])
+
   const sceneRef = useRef()
 
   const {
@@ -39,6 +44,8 @@ function App() {
   <>
     {/* Navbar */}
     <Navbar />
+    {/* Send to backend */}
+    <PopulateButton boneList={boneList} />
 
     {/* Backend Test */}
     <div className="card">
@@ -46,6 +53,13 @@ function App() {
       <pre>{testData ? JSON.stringify(testData, null, 2) : "Loading..."}</pre>
     </div>
 
+    <SkeletonModel
+      onBoneClick={(name, mesh) =>
+        handleBoneClick(name, setSelectedBone, mesh, setSelectedMesh)
+      }
+      sceneRef={sceneRef}
+      onBoneNamesExtracted={setBoneList}
+    />
 
     {/* Bone Info Panel */}
     <BoneInfoPanel
