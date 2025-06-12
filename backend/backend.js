@@ -1,4 +1,4 @@
-/**
+ /**
  * This is the backend server for the application.
  * It is a simple Express server that serves a test API endpoint.
  * The server is configured to allow CORS requests from the frontend application.
@@ -8,6 +8,12 @@ const express  = require('express');
 const app = express();
 const cors = require('cors');
 const path = require('path');
+const bonesRouter = require('./routes/routing_bones')
+
+
+
+
+
 const corsOptions = {
     origin: 'http://localhost:5173',
     //methods: ['GET', 'POST'],
@@ -16,11 +22,13 @@ const corsOptions = {
 app.use(cors(corsOptions))
 ;
 // Statische Modelle freigeben
-app.use('/models', express.static(path.join(__dirname, 'models')))
+app.use('/static', express.static(path.join(__dirname, 'static')))
+
+//Bones API 
+app.use('/bones', bonesRouter)
 
 
-
-
+//Test endpoint
 app.get("/api", (req, res) => {
     res.json({test:["Harry","test"]});
 });

@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react'
 import { setupSkeletonScene } from '../controllers/skeletonController'
 
 export function SkeletonModel({ onBoneClick, sceneRef }) {
-  const { scene } = useGLTF('http://localhost:8080/models/Skelett.glb')
+  const { scene } = useGLTF('http://localhost:8080/static/Skelett.glb')
   const initializedRef = useRef(false)
 
   useEffect(() => {
