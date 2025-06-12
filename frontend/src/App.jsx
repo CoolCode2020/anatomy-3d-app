@@ -11,7 +11,7 @@ import Navbar from './components/Navbar'; //
 import { ViewerCanvas } from './components/ViewerCanvas.jsx'
 import { BoneInfoPanel } from './components/BoneInfoPanel.jsx'// Loader UI while GLB is loading
 import { SkeletonModel } from './components/SkeletonModel.jsx'
-import {PopulateButton} from './components/PopulateDBSButton.jsx'
+import PopulateButton from './components/PopulateDBSButton.jsx'
 
 
 function App() {
