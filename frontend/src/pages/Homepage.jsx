@@ -1,43 +1,28 @@
-import { useEffect, useRef, useState } from 'react'
-import { useBoneModel } from '../models/boneModel'
-import { fetchTestData } from '../api/backendService'
-import { handleBoneClick } from '../controllers/boneController'
-import { ViewerCanvas } from '../components/ViewerCanvas'
+import { useRef } from 'react';
+import { useBoneModel } from '../models/boneModel';
+import { handleBoneClick } from '../controllers/boneController';
+import { ViewerCanvas } from '../components/ViewerCanvas';
+import WelcomeBox from '../components/WelcomeBox';
 
 export default function HomePage() {
-    const [testData, setTestData] = useState(null)
-    const sceneRef = useRef()
+    const sceneRef = useRef();
 
     const {
         selectedBone,
         setSelectedBone,
         selectedMesh,
         setSelectedMesh
-    } = useBoneModel()
-
-    useEffect(() => {
-        async function loadTestData() {
-            try {
-                const data = await fetchTestData()
-                setTestData(data)
-            } catch (error) {
-                console.error("Error loading backend data:", error)
-            }
-        }
-
-        loadTestData()
-    }, [])
+    } = useBoneModel();
 
     return (
         <div className="flex h-[calc(100vh-6rem)]">
-            <div className="w-1/3 p-4 overflow-auto bg-white">
-                <h2 className="text-lg font-bold mb-2">Backend Test Data:</h2>
-                <pre className="text-sm">
-          {testData ? JSON.stringify(testData, null, 2) : "Loading..."}
-        </pre>
+            {/* Linke Spalte: Willkommenstext */}
+            <div className="w-1/3 p-4 bg-white flex items-center justify-center">
+                <WelcomeBox />
             </div>
 
-            <div className="w-2/3 h-full">
+            {/* Rechte Spalte: 3D-Modell */}
+            <div className="w-2/3 h-30">
                 <ViewerCanvas
                     onBoneClick={(name, mesh) =>
                         handleBoneClick(name, setSelectedBone, mesh, setSelectedMesh)
@@ -49,5 +34,5 @@ export default function HomePage() {
                 />
             </div>
         </div>
-    )
+    );
 }
