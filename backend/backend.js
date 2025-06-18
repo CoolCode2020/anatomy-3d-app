@@ -9,7 +9,7 @@ const app = express();
 const cors = require('cors');
 const path = require('path');
 const bonesRouter = require('./routes/routing_bones')
-
+const { initEnrichmentRoutine } = require('./controllers/BoneEnrichmentQueue')
 
 
 
@@ -37,6 +37,8 @@ app.get("/api", (req, res) => {
 
 app.listen(8080, () => {
     console.log("Server started on port 8080");
+    // start bone background 
+    //initEnrichmentRoutine();
 });
 
 

@@ -1,5 +1,5 @@
 const Database = require('better-sqlite3')
-const db = new Database('bones.db', { verbose: console.log })
+const db = new Database('mydatabase.db', { verbose: console.log })
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS bones (

@@ -2,6 +2,7 @@ const express = require('express')          // Import the Express library (used 
 const router = express.Router()             // Create a new Express Router instance to define route handlers
 const db = require('../db')                 // Import the database instance (likely using SQLite with better-sqlite3)
 const { generateMedicalInfo } = require('../controllers/MedicalBoneInformationController')
+const { enqueueBone } = require('../controllers/BoneEnrichmentQueue')
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -41,6 +42,9 @@ router.post('/seed', (req, res) => {
 router.get('/:id', (req,res) => {
     const bone = db.prepare('SELECT * FROM bones WHERE id = ?').get(req.params.id)
     if (bone) {
+        if (!bone.latin_name || !bone.description) {
+          enqueueBone(bone.id, bone.name)
+          }
         res.json(bone)
     }else {
         res.status(404).json({error:'Bone not found'})

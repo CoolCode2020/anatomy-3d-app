@@ -15,5 +15,6 @@ RUN npm ci
 COPY . .
 
 EXPOSE 8080
+# You only need this if you do not have the dbs locally but on server, but i dont for performance
 RUN npm rebuild better-sqlite3
 CMD ["npm", "run", "dev"]ç
