@@ -30,7 +30,7 @@ async function processQueue() {
       console.error(`[Enrichment] Failed to update ${bone.name}`, e.message)
       break
     }
-    await new Promise(resolve => setTimeout(resolve, 3000)) // Delay to avoid rate limits
+    await new Promise(resolve => setTimeout(resolve, 1500)) // Delay to avoid rate limits
   }
   isProcessing = false
 }
