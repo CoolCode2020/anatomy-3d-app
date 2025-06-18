@@ -12,11 +12,11 @@ function Loader() {
 
 export function ViewerCanvas({ onBoneClick, selectedMesh, sceneRef, setSelectedBone, setSelectedMesh }) {
   return (
-    <div style={{ height: '100vh', width: '100vw' }}>
+    <div style={{ height: '100%', width: '100%' }}>
       <Canvas
-        camera={{ position: [0, 2, 4] }}
+        camera={{ position: [0, 2, 6] }}
         shadows
-        style={{ background: '#f0f0f0', height: '100vh', width: '100vw' }}
+        style={{ background: '#f0f0f0'}}
         onPointerMissed={() => {
           setSelectedBone(null)
           setSelectedMesh(null)
