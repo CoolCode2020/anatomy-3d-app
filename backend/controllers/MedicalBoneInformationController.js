@@ -1,4 +1,4 @@
-export async function generateMedicalInfo(boneName) {
+async function generateMedicalInfo(boneName) {
   const client = await Client.connect("warshanks/medgemma-4b-it")
 
   const prompt = `

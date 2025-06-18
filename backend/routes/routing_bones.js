@@ -1,7 +1,11 @@
 const express = require('express')          // Import the Express library (used to create HTTP server and routes)
 const router = express.Router()             // Create a new Express Router instance to define route handlers
 const db = require('../db')                 // Import the database instance (likely using SQLite with better-sqlite3)
+const { generateMedicalInfo } = require('../controllers/MedicalBoneInformationController')
 
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
 
 
 router.post('/seed', (req, res) => {
@@ -63,5 +67,35 @@ console.log('[Bones Router] Received /populate request with:', req.body)
   res.json({ success: true, inserted: bones.length })
 })
 
+
+router.get('/generateInfo', async (req, res) => {
+  const bonesToEnrich = db.prepare(`
+    SELECT * FROM bones 
+    WHERE latin_name IS NULL OR latin_name = '' 
+    OR description IS NULL OR description = ''
+  `).all()
+
+  const updateStmt = db.prepare(`
+    UPDATE bones 
+    SET latin_name = ?, description = ? 
+    WHERE id = ?
+  `)
+
+  const results = []
+
+  for (const bone of bonesToEnrich) {
+    try {
+      const info = await generateMedicalInfo(bone.name)
+      updateStmt.run(info.latin_name, info.description, bone.id)
+      results.push({ id: bone.id, updated: true })
+      await delay(1000) // Delay added to avoid rate limits
+    } catch (error) {
+      console.error(`Failed to enrich ${bone.name}`, error)
+      results.push({ id: bone.id, updated: false, error: error.message })
+    }
+  }
+
+  res.json({ success: true, enriched: results.length, details: results })
+})
 
 module.exports = router
