@@ -28,7 +28,7 @@ async function processQueue() {
       console.log(`[Enrichment] Updated: ${bone.name}`)
     } catch (e) {
       console.error(`[Enrichment] Failed to update ${bone.name}`, e.message)
-      break
+      //break (only when stuff breaks and you dont want to waste tokens...me soooo pooor)
     }
     await new Promise(resolve => setTimeout(resolve, 1500)) // Delay to avoid rate limits
   }
