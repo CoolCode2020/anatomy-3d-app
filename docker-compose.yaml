@@ -14,7 +14,8 @@ services:
     working_dir: /backend_app
     command: npm run dev
     restart: unless-stopped
-
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   frontend:
     build:
       context: ./frontend

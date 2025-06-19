@@ -1,31 +1,35 @@
-// Simulated raw model output (as array)
-const raw = [
-  '```json\n',
-  '{\n',
-  '  "latin_name": "Stapes",\n',
-  '  "description": "The stapes (plural: stapes) is the smallest bone in the human body, located in the middle ear. It is a stirrup-shaped bone that forms the middle ear ossicle. The stapes\' primary function is to transmit sound vibrations from the tympanic membrane (eardrum) to the inner ear (cochlea), thereby enabling hearing. It connects to the oval window, which is a membrane-covered opening into the inner ear, and to the incus (another middle ear ossicle). The stapes footplate sits within the oval window, anchoring the chain of ossicles."\n',
-  '}\n',
-  '```'
-];
+async function generateMedicalInfoOllama(boneName) {
+  const baseUrl = 'http://host.docker.internal:11434/api/generate';
 
-// Cleaning function (from your actual code)
-function cleanModelOutput(raw) {
-  const text = Array.isArray(raw) ? raw.join('\n') : raw;
-  return text
-    .replace(/```json\s*/gi, '')
-    .replace(/```/g, '')
-    .replace(/^[^{]*({.*?})[^}]*$/s, '$1')
-    .trim();
-}
+  async function queryOllama(prompt) {
+    const res = await fetch(baseUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'medllama2',
+        prompt: prompt,
+        stream: false
+      })
+    });
 
-const cleaned = cleanModelOutput(raw);
-console.log("Cleaned JSON string:\n", cleaned);
+    const data = await res.json();
+    console.log("[Ollama Response]:", data);
+    return data.response || '';
+  }
 
-// Try to parse
-try {
-  const json = JSON.parse(cleaned);
-  console.log("\n✅ Parsed result:");
-  console.log(json);
-} catch (err) {
-  console.error("\n❌ Parse error:", err.message);
+  const latinPrompt = `You are a medical expert. ONLY respond with the Latin name of the human bone "${boneName}".`;
+  const descriptionPrompt = `You are a medical expert. ONLY respond with a medical description of the human bone "${boneName}".`;
+
+  try {
+    const latin = await queryOllama(latinPrompt);
+    const description = await queryOllama(descriptionPrompt);
+
+    return {
+      latin_name: latin.trim().replace(/^"|"$/g, ''),
+      description: description.trim()
+    };
+  } catch (err) {
+    console.error("[Ollama Error]", err);
+    return { latin_name: "", description: "" };
+  }
 }

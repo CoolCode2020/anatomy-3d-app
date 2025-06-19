@@ -1,7 +1,5 @@
 const { generateMedicalInfo, generateMedicalInfoOllama } = require('./MedicalBoneInformationController')
 const db = require('../db')
-const { execSync } = require('child_process');
-
 const queue = []
 let isProcessing = false
 

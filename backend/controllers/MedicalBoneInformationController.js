@@ -1,4 +1,4 @@
-const { execSync } = require('child_process');
+const fetch = (...args) => import('node-fetch').then(mod => mod.default(...args));
 
 function cleanModelOutput(raw) {
   const text = Array.isArray(raw) ? raw.join('\n') : raw;
@@ -39,15 +39,40 @@ async function generateMedicalInfo(boneName) {
 }
 
 
-async function generateMedicalInfoOllama(boneName){
+async function generateMedicalInfoOllama(boneName) {
+  const baseUrl = 'http://host.docker.internal:11434/api/generate';
 
-  const curlCmd = `curl -X POST http://localhost:11434/api/generate -d '{
-  "model": "medllama2",
-  "prompt": "Give me the Latin name and a medical description of the human bone \\"${boneName}\\". Return in this exact format: { \\"latin_name\\": \\"LATIN\\", \\"description\\": \\"DESCRIPTION\\" }"
-}'`;
-  const result = execSync(curlCmd.toString())
-  const clean_result = cleanModelOutput(result)
-  return JSON.parse(cleaned)
+  async function queryOllama(prompt) {
+    const res = await fetch(baseUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'medllama2',
+        prompt: prompt,
+        stream: false
+      })
+    });
+
+    const data = await res.json();
+    console.log("[Ollama Response]:", data);
+    return data.response || '';
+  }
+
+  const latinPrompt = `You are a medical expert. ONLY respond with the Latin name of the human bone "${boneName}".`;
+  const descriptionPrompt = `You are a medical expert. ONLY respond with a medical description of the human bone "${boneName}".`;
+
+  try {
+    const latin = await queryOllama(latinPrompt);
+    const description = await queryOllama(descriptionPrompt);
+
+    return {
+      latin_name: latin.trim().replace(/^"|"$/g, ''),
+      description: description.trim()
+    };
+  } catch (err) {
+    console.error("[Ollama Error]", err);
+    return { latin_name: "", description: "" };
+  }
 }
 module.exports = {
   generateMedicalInfo,
