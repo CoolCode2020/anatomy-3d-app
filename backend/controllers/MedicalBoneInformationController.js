@@ -1,3 +1,5 @@
+const { execSync } = require('child_process');
+
 function cleanModelOutput(raw) {
   const text = Array.isArray(raw) ? raw.join('\n') : raw;
   return text
@@ -36,4 +38,18 @@ async function generateMedicalInfo(boneName) {
   }
 }
 
-module.exports = { generateMedicalInfo };
+
+async function generateMedicalInfoOllama(boneName){
+
+  const curlCmd = `curl -X POST http://localhost:11434/api/generate -d '{
+  "model": "medllama2",
+  "prompt": "Give me the Latin name and a medical description of the human bone \\"${boneName}\\". Return in this exact format: { \\"latin_name\\": \\"LATIN\\", \\"description\\": \\"DESCRIPTION\\" }"
+}'`;
+  const result = execSync(curlCmd.toString())
+  const clean_result = cleanModelOutput(result)
+  return JSON.parse(cleaned)
+}
+module.exports = {
+  generateMedicalInfo,
+  generateMedicalInfoOllama
+};

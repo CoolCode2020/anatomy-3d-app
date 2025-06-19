@@ -1,5 +1,6 @@
-const { generateMedicalInfo } = require('./MedicalBoneInformationController')
+const { generateMedicalInfo, generateMedicalInfoOllama } = require('./MedicalBoneInformationController')
 const db = require('../db')
+const { execSync } = require('child_process');
 
 const queue = []
 let isProcessing = false
@@ -20,17 +21,37 @@ async function processQueue() {
       console.log(`[Enrichment] Skipped: ${bone.name} already has data.`)
       continue
     }
+
+    let success = false
+
     try {
       const info = await generateMedicalInfo(bone.name)
       db.prepare(`
         UPDATE bones SET latin_name = ?, description = ? WHERE id = ?
       `).run(info.latin_name, info.description, bone.id)
-      console.log(`[Enrichment] Updated: ${bone.name}`)
+      console.log(`[Enrichment] Updated via hugging face: ${bone.name}`)
+      success = true
     } catch (e) {
-      console.error(`[Enrichment] Failed to update ${bone.name}`, e.message)
-      //break (only when stuff breaks and you dont want to waste tokens...me soooo pooor)
+      console.error(`[Enrichment] Failed to update via hugging face: ${bone.name}`, e.message)
+
+      try {
+        const info = await generateMedicalInfoOllama(bone.name)
+        db.prepare(`
+          UPDATE bones SET latin_name = ?, description = ? WHERE id = ?
+        `).run(info.latin_name, info.description, bone.id)
+        console.log(`[Enrichment] Updated via medllama: ${bone.name}`)
+        success = true
+      } catch (e) {
+        console.error(`[Enrichment] Failed to update via medllama, breaking: ${bone.name}`, e.message)
+        break
+      }
     }
-    await new Promise(resolve => setTimeout(resolve, 1500)) // Delay to avoid rate limits
+
+    if (!success) {
+      console.warn(`[Enrichment] Skipped update attempt: ${bone.name}`)
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 1500)) // Always delay
   }
   isProcessing = false
 }
