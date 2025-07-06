@@ -58,8 +58,8 @@ async function generateMedicalInfoOllama(boneName) {
     return data.response || '';
   }
 
-  const latinPrompt = `You are a medical expert. ONLY respond with the Latin name of the human bone "${boneName}".`;
-  const descriptionPrompt = `You are a medical expert. ONLY respond with a medical description of the human bone "${boneName}".`;
+  const latinPrompt = `ONLY respond with the Latin name of the human bone "${boneName}".`;
+  const descriptionPrompt = `ONLY respond with a medical description of the human bone "${boneName}".`;
 
   try {
     const latin = await queryOllama(latinPrompt);
