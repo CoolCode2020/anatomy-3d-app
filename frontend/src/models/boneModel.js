@@ -8,12 +8,15 @@ Custorm React hook to manage the sate of the selcted bone and its mesh
 export function useBoneModel() {
   const [selectedBone, setSelectedBone] = useState(null)
   const [selectedMesh, setSelectedMesh] = useState(null)
+  const [selectedBones, setSelectedBones] = useState([])
 
   return {
     selectedBone,
     setSelectedBone,
     selectedMesh,
     setSelectedMesh,
+    selectedBones,
+    setSelectedBones
   }
 }
 
