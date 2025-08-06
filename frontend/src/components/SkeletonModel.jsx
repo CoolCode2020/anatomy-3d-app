@@ -21,7 +21,7 @@ export function SkeletonModel({ onBoneClick, sceneRef }) {
   return (
     <primitive
       object={scene}
-      position={[0, 1, 0]}
+      position={[0, 0, 0]}
       onPointerDown={(e) => {
         e.stopPropagation()
         console.log('[SkeletonModel] Pointer down on:', e.object.name)
