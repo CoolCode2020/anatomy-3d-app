@@ -1,86 +1,14 @@
-import { useState, useEffect, useRef } from 'react'
 import './App.css'
+import { Outlet } from 'react-router-dom';
+import Navbar from './components/Navbar';
 
-// MVC Imports
-import { useBoneModel } from './models/boneModel.js'
-import { fetchTestData } from './api/backendService.js'
-import { handleBoneClick } from './controllers/boneController.js'
-import Navbar from './components/Navbar'; //
-
-// Component Views
-import { ViewerCanvas } from './components/ViewerCanvas.jsx'
-import { BoneInfoPanel } from './components/BoneInfoPanel.jsx'// Loader UI while GLB is loading
-import { SkeletonModel } from './components/SkeletonModel.jsx'
-import PopulateButton from './components/PopulateDBSButton.jsx'
-
-
-function App() {
-  const [testData, setTestData] = useState(null)
-  const [boneList, setBoneList] = useState([])
-
-  const sceneRef = useRef()
-
-  const {
-    selectedBone,
-    setSelectedBone,
-    selectedMesh,
-    setSelectedMesh
-  } = useBoneModel()
-
-  useEffect(() => {
-    async function loadTestData() {
-      try {
-        const data = await fetchTestData()
-        setTestData(data)
-      } catch (error) {
-        console.error("Error loading backend data:", error)
-      }
-    }
-
-    loadTestData()
-  }, [])
-
+export default function App() {
   return (
-  <>
-    {/* Navbar */}
-    <Navbar />
-    {/* Send to backend */}
-    <PopulateButton boneList={boneList} />
-
-    {/* Backend Test */}
-    <div className="card">
-      <h2>Backend Test Data:</h2>
-      <pre>{testData ? JSON.stringify(testData, null, 2) : "Loading..."}</pre>
-    </div>
-
-    <SkeletonModel
-      onBoneClick={(name, mesh) =>
-        handleBoneClick(name, setSelectedBone, mesh, setSelectedMesh)
-      }
-      sceneRef={sceneRef}
-      onBoneNamesExtracted={setBoneList}
-    />
-
-    {/* Bone Info Panel */}
-    <BoneInfoPanel
-      selectedBone={selectedBone}
-      sceneRef={sceneRef}
-      setSelectedBone={setSelectedBone}
-      setSelectedMesh={setSelectedMesh}
-    />
-
-    {/* 3D Canvas View */}
-    <ViewerCanvas
-      onBoneClick={(name, mesh) =>
-        handleBoneClick(name, setSelectedBone, mesh, setSelectedMesh)
-      }
-      selectedMesh={selectedMesh}
-      sceneRef={sceneRef}
-      setSelectedBone={setSelectedBone}
-      setSelectedMesh={setSelectedMesh}
-      
-    />
-  </>
-)}
-
-export default App
+      <>
+        <Navbar />
+        <div className="pt-24 min-h-screen bg-gray-100 overflow-hidden">
+          <Outlet />
+        </div>
+      </>
+  );
+}
