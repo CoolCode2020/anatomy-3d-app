@@ -9,11 +9,13 @@ services:
       - "8080:8080"
     volumes:
       - ./backend:/backend_app
-      - /backend_app/node_modules  # prevent overwriting node_modules inside container
+      - /backend_app/node_modules # prevent overwriting node_modules inside container
+      - ./backend/mydatabase.db:/backend_app/mydatabase.db  # 👈 mounts the DB file directly from local only temporary  
     working_dir: /backend_app
     command: npm run dev
     restart: unless-stopped
-
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   frontend:
     build:
       context: ./frontend
