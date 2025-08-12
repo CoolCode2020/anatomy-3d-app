@@ -1,32 +1,41 @@
 import { useRef } from 'react';
-import { useBoneModel } from '../models/boneModel';
-import { handleBoneClick } from '../controllers/boneController';
-import { ViewerCanvas } from '../components/ViewerCanvas';
+import { useBoneModel } from '../models/boneModel.js';
+import { handleBoneClick } from '../controllers/boneController.js';
+import { ViewerCanvas } from '../components/ViewerCanvas.jsx';
 import QuestionboxMultipleChoice from '../components/QuestionboxMultipleChoice.jsx';
+import { useQuiz } from '../hooks/useQuiz';
 
 export default function Quiz1() {
     const sceneRef = useRef();
 
     const {
-        selectedBone,
         setSelectedBone,
         selectedMesh,
         setSelectedMesh
     } = useBoneModel();
+    const {
+    options,
+    correctBone,
+    selectedAnswer,
+    isLoading,
+    error,
+    answer,
+  } = useQuiz();
+  if (isLoading) return <div>Lade...</div>;
+  if (error) return <div>Fehler: {error.message}</div>;
 
-    const handleAnswer = (answer) => {
-        console.log('Antwort gewählt:', answer);
-    };
-
+    
     return (
         <div className="flex h-[calc(100vh-6rem)]">
             {/* Linke Spalte: Vertikal zentrierte QuestionboxMultipleChoice */}
             <div className="w-1/3 p-4 bg-white flex items-center justify-center">
                 <div className="w-full max-w-md">
                     <QuestionboxMultipleChoice
-                        question="Wie heißt dieser Knochen?"
-                        answers={['Femur', 'Tibia', 'Humerus', 'Ulna']}
-                        onAnswerSelected={handleAnswer}
+                        question="Welcher Knochen leuchtet?"
+                        answers={options}
+                        onAnswerSelected={answer}
+                        selectedAnswer={selectedAnswer}
+                        correctAnswer={correctBone}
                     />
                 </div>
             </div>

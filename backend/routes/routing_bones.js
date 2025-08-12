@@ -102,4 +102,21 @@ router.get('/generateInfo', async (req, res) => {
   res.json({ success: true, enriched: results.length, details: results })
 })
 
+/**
+ * Routing for Quiz module
+ */
+
+router.get('/4randomQuiz', async (req,res)=>{
+  const options = db.prepare (`
+    SELECT * FROM bones
+    ORDER BY RANDOM()
+    LIMIT 4`).all();
+    if (options.lenght < 4) {
+      return res.stauts(400).json({error: 'Not enough Bones in DB'});
+    }
+    
+  
+}
+)
+
 module.exports = router

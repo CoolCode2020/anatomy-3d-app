@@ -22,14 +22,14 @@ const Navbar = () => {
                 <li className="p-4">
                     <Link to="/quiz1">
                         <button className="bg-[#4F46E5] text-white px-4 py-2 rounded hover:bg-[#655CFF] transition shadow-md hover:shadow-lg">
-                            Quiz 1
+                            Quiz Game
                         </button>
                     </Link>
                 </li>
                 <li className="p-4">
                     <Link to="/quiz2">
                         <button className="bg-[#4F46E5] text-white px-4 py-2 rounded hover:bg-[#655CFF] transition shadow-md hover:shadow-lg">
-                            Quiz 2
+                            Find Bone
                         </button>
                     </Link>
                 </li>
