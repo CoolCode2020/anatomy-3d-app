@@ -36,20 +36,6 @@ router.post('/seed', (req, res) => {
   res.json({ success: true, count: bones.length })
 })
 
-/**
- * Routing to find a Bone by name in DBS
- */
-router.get('/:id', (req,res) => {
-    const bone = db.prepare('SELECT * FROM bones WHERE id = ?').get(req.params.id)
-    if (bone) {
-        if (!bone.latin_name || !bone.description) {
-          enqueueBone(bone.id, bone.name)
-          }
-        res.json(bone)
-    }else {
-        res.status(404).json({error:'Bone not found'})
-    }
-})
 
 router.post('/populate', (req, res) => {
 console.log('[Bones Router] Received /populate request with:', req.body)
@@ -105,18 +91,36 @@ router.get('/generateInfo', async (req, res) => {
 /**
  * Routing for Quiz module
  */
-
-router.get('/4randomQuiz', async (req,res)=>{
-  const options = db.prepare (`
-    SELECT * FROM bones
+router.get('/4randomQuiz', (req, res) => {
+  const rows = db.prepare(`
+    SELECT id FROM bones
     ORDER BY RANDOM()
-    LIMIT 4`).all();
-    if (options.lenght < 4) {
-      return res.stauts(400).json({error: 'Not enough Bones in DB'});
+    LIMIT 4
+  `).all();
+
+  if (rows.length < 4) {
+    return res.status(400).json({ error: 'Not enough bones in DB' });
+  }
+
+  const options = rows.map(r => r.id);
+  const correctBone = options[Math.floor(Math.random() * options.length)];
+
+  res.json({ options, correctBone });
+});
+/**
+ * Routing to find a Bone by name in DBS, must be last otherwise bad mapping
+ */
+router.get('/:id', (req,res) => {
+    const bone = db.prepare('SELECT * FROM bones WHERE id = ?').get(req.params.id)
+    if (bone) {
+        if (!bone.latin_name || !bone.description) {
+          enqueueBone(bone.id, bone.name)
+          }
+        res.json(bone)
+    }else {
+        res.status(404).json({error:'Bone not found'})
     }
-    
-  
-}
-)
+})
+
 
 module.exports = router
