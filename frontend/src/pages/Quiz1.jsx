@@ -21,6 +21,9 @@ export default function Quiz1() {
   const [error, setError] = useState(null);
   const [correctCount, setCorrectCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
+  // Intro overlay state
+  const [showIntro, setShowIntro] = useState(true);
+  const [started, setStarted] = useState(false);
 
   const loadQuiz = async () => {
     setIsLoading(true);
@@ -89,10 +92,12 @@ export default function Quiz1() {
       setIsLoading(false);
     }
   };
-  // initial load
+  // initial load only after user starts
   useEffect(() => {
-    loadQuiz();
-  }, []);
+    if (started) {
+      loadQuiz();
+    }
+  }, [started]);
 
 
   const answer = (ans) => {
@@ -158,6 +163,29 @@ export default function Quiz1() {
           lockHighlight
         />
       </div>
+      {showIntro && (
+        <div className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm flex items-center justify-center">
+          <div className="bg-white rounded-lg shadow-xl max-w-lg w-[90%] p-6">
+            <h2 className="text-xl font-semibold mb-2">Knochen‑Quiz</h2>
+            <p className="text-sm text-gray-700 mb-4">
+              Ziel: Finde heraus, welcher Knochen im Modell hervorgehoben ist. Wähle die richtige Antwort aus vier Optionen.
+            </p>
+            <ul className="text-sm text-gray-600 list-disc pl-5 mb-4 space-y-1">
+              <li>Der richtige Knochen leuchtet im 3D‑Skelett.</li>
+              <li>Wähle in der Box links die korrekte Bezeichnung.</li>
+              <li>Nach jeder Antwort startet automatisch die nächste Runde.</li>
+            </ul>
+            <div className="flex justify-end">
+              <button
+                className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+                onClick={() => { setShowIntro(false); setStarted(true); }}
+              >
+                Los geht’s
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
