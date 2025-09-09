@@ -33,6 +33,13 @@ const Navbar = () => {
                         </button>
                     </Link>
                 </li>
+                 <li className="p-4">
+                    <Link to="/populate">
+                        <button className="bg-[#4F46E5] text-white px-4 py-2 rounded hover:bg-[#655CFF] transition shadow-md hover:shadow-lg">
+                            Datenbank Laden
+                        </button>
+                    </Link>
+                </li>
                 <li className="p-4">
                     <Link to="/info">
                         <button className="bg-[#4F46E5] text-white px-4 py-2 rounded hover:bg-[#655CFF] transition shadow-md hover:shadow-lg">

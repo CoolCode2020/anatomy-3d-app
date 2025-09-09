@@ -47,7 +47,7 @@ async function generateMedicalInfoOllama(boneName) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'medllama2',
+        model: 'meditron:7b-fp16',
         prompt: prompt,
         stream: false
       })
