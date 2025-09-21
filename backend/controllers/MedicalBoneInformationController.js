@@ -40,14 +40,15 @@ async function generateMedicalInfo(boneName) {
 
 
 async function generateMedicalInfoOllama(boneName) {
-  const baseUrl = 'http://host.docker.internal:11434/api/generate';
+  const baseUrl = 'http://host.docker.internal:11434/api/generate'; //use when in docker
+  //const baseUrl = 'http://localhost:11434/api/generate';
 
   async function queryOllama(prompt) {
     const res = await fetch(baseUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'meditron:7b-fp16',
+        model: 'medllama2:latest', // or 'medllama2:latest' 'meditron:latest'
         prompt: prompt,
         stream: false
       })

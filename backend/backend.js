@@ -38,7 +38,7 @@ app.get("/api", (req, res) => {
 app.listen(8080, () => {
     console.log("Server started on port 8080");
     // start bone background 
-    //initEnrichmentRoutine(); //deaktiviert damit ich Frontend bone selection testen kann
+    initEnrichmentRoutine(); //deaktiviert damit ich Frontend bone selection testen kann
 });
 
 
