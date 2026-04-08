@@ -42,8 +42,8 @@ cd anatomy-3d-app
 docker-compose up --build
 
 Access:
-	•	Frontend → http://localhost:5173
-	•	Backend → http://localhost:8080
+- Frontend → http://localhost:5173
+- Backend → http://localhost:8080
 
 ⸻
 
@@ -66,23 +66,23 @@ npm run dev
 ⸻
 
 ⚙️ What it does
-	•	Displays an interactive 3D bone model
-	•	Allows users to click and select bones
-	•	Fetches bone-related data from the backend API
-	•	Serves static 3D assets
-	•	Runs a background process for data enrichment
+- Displays an interactive 3D bone model
+- Allows users to click and select bones
+- Fetches bone-related data from the backend API
+- Serves static 3D assets
+- Runs a background process for data enrichment
 
 ⸻
 
 🔌 API
-	•	GET /api → test endpoint
-	•	GET /bones → bone data
+- GET /api → test endpoint
+- GET /bones → bone data
 
 ⸻
 
 🗄️ Database
-	•	SQLite database (development only)
-	•	File location:
+- SQLite database (development only)
+- File location:
 
 backend/mydatabase.db
 
