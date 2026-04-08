@@ -1,78 +1,96 @@
-# anatomy-3d-app
+Anatomy 3D Learning App
 
-Pflichtenheft:
+This project is a 3D anatomy learning application that allows users to explore bones interactively in a browser.
 
-1. Zielsetzung: Lerneapp für Anatomiebegeisterte in Docker 
+Users can:
+	•	View a 3D bone model
+	•	Click on individual bones
+	•	Get contextual information about selected bones
+	•	Learn anatomy in an interactive, visual way
 
-2. Nutzer: Anatomielernende (Schüler/Student)
-
-3. Funktionen:
-
-3.1 Quizfunktion zu Knochen: Knochen sind Klickbar und man kann raten wie der Knochen heißt
-3.2 Quizfunktion Name von Knochen: Du hast einen Knochennamen und musst auf den Ricjtigen Knochen klicken.
-3.3 Suchfunktion von Knochen in text: Highligth Knochen am Skelett mit link auf einen Text.
-3.4 Suchfunktion von Knochen am Skelett: Knocheninformationen über einen klick auf den Knochen
-3.5. Selektionsfeature: Knochengruppen ein und und ausblenden
-3.6 360C Navigation
-3.6 Sprachen ändern
-3.7 Skelet griefen und bewegen funktion
-3.8 Skelett mini game: Das Skelett in sich zusammen fallen lassen mit einem knopfdruck und sich wieder aufbauen lassen mit einem knopfdruck.
-
-4. Komponenten:
+The app follows a fullstack architecture:
+	•	Frontend: React + Vite + Three.js (3D rendering)
+	•	Backend: Node.js + Express
+	•	Database: SQLite (via better-sqlite3)
+	•	Containerization: Docker + Docker Compose
 
 
+  Setup: docker-compose up --build in file directory
+
+⸻
+
+🧠 Anatomy 3D Learning App
+
+A simple fullstack web app to explore 3D bone models interactively.
+Users can click bones in a 3D viewer and retrieve related information.
+
+⸻
+
+🚀 Quick Start
+
+1. Requirements
+	•	Docker + Docker Compose
+or
+	•	Node.js (v20 recommended)
+
+⸻
+
+🐳 Run with Docker (recommended)
+
+git clone <your-repo-url>
+cd anatomy-3d-app
+docker-compose up --build
+
+Access:
+	•	Frontend → http://localhost:5173
+	•	Backend → http://localhost:8080
+
+⸻
+
+💻 Run Locally (without Docker)
+
+Backend
+
+cd backend
+npm install
+npm rebuild better-sqlite3
+npm run dev
+
+Frontend
+
+cd frontend
+npm install
+npm run dev
 
 
+⸻
+
+⚙️ What it does
+	•	Displays an interactive 3D bone model
+	•	Allows users to click and select bones
+	•	Fetches bone-related data from the backend API
+	•	Serves static 3D assets
+	•	Runs a background process for data enrichment
+
+⸻
+
+🔌 API
+	•	GET /api → test endpoint
+	•	GET /bones → bone data
+
+⸻
+
+🗄️ Database
+	•	SQLite database (development only)
+	•	File location:
+
+backend/mydatabase.db
 
 
+⸻
 
+⚠️ Notes
+	•	CORS is set for http://localhost:5173
+	•	App runs in development mode (npm run dev)
+	•	Not production-ready yet
 
-
-
-
-App to help medicine students study anatomy using 3d models
-
-Frontend mit vite und JS+SWC
-backend node js + cors (damit backen und forntend von verschiedenen Domains kommen koennen) + nodaemon ( reloads ) + express
-
-Browser Chrome
-
-#3D Rendering for frontend : npm install three @react-three/fiber @react-three/drei
-
-
-Stack : JavaScript React Fiber Three Blender
-
-
-
-Strukturvorschlag (AI generated):
-anatomy-3d-app/
-├── docker/
-│   └── nginx/                 # (optional) custom NGINX config
-├── frontend/
-│   └── src/
-│       ├── assets/           # textures, images, sounds
-│       ├── components/       # React components (e.g., OrganView, Controls)
-│       ├── scenes/           # Three.js scenes, camera setup
-│       ├── data/             # organ metadata (JSON, localization)
-│       ├── styles/           # Tailwind/CSS/SASS
-│       └── App.jsx 
-├── backend/ using Express and node
-│   └── src/
-│       ├── api/              # Express routes or REST API
-│       ├── models/           # DB models or data structure definitions
-│       ├── utils/            # helper functions
-│       └── server.js         # Entry point
-├── .dockerignore
-├── .gitignore
-├── Dockerfile
-├── docker-compose.yml
-├── package.json
-├── README.md
-<<<<<<< HEAD
-└── .env                      # (optional) für Umgebungsvariablen
-=======
-└── .env
->>>>>>> David_Project_Setup
-
-
-To Do: yaml, docker , belnder meshes download and first look
