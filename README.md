@@ -3,16 +3,16 @@ Anatomy 3D Learning App
 This project is a 3D anatomy learning application that allows users to explore bones interactively in a browser.
 
 Users can:
-	•	View a 3D bone model
-	•	Click on individual bones
-	•	Get contextual information about selected bones
-	•	Learn anatomy in an interactive, visual way
+-View a 3D bone model
+-Click on individual bones
+-Get contextual information about selected bones
+-Learn anatomy in an interactive, visual way
 
 The app follows a fullstack architecture:
-	•	Frontend: React + Vite + Three.js (3D rendering)
-	•	Backend: Node.js + Express
-	•	Database: SQLite (via better-sqlite3)
-	•	Containerization: Docker + Docker Compose
+-Frontend: React + Vite + Three.js (3D rendering)
+-Backend: Node.js + Express
+-Database: SQLite (via better-sqlite3)
+-Containerization: Docker + Docker Compose
 
 
   Setup: docker-compose up --build in file directory
