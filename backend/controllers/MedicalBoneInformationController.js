@@ -75,7 +75,49 @@ async function generateMedicalInfoOllama(boneName) {
     return { latin_name: "", description: "" };
   }
 }
+
+async function generateMedicalInfoUniOllama(boneName) {
+  // Uni Ollama is accessed via SSH tunnel on the host
+  // Docker reaches it via host.docker.internal
+  const baseUrl = 'http://host.docker.internal:11434/api/generate';
+
+  async function queryUniOllama(prompt) {
+    const res = await fetch(baseUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'gemma3:27b-it-fp16', // strong medical / instruction model
+        prompt: prompt,
+        stream: false
+      })
+    });
+
+    if (!res.ok) {
+      throw new Error(`Uni Ollama error: ${res.status}`);
+    }
+
+    const data = await res.json();
+    return data.response || '';
+  }
+
+  const prompt = `
+Give me the Latin name and a concise medical description of the human bone "${boneName}".
+
+Return ONLY valid JSON in this exact format:
+{ "latin_name": "LATIN", "description": "DESCRIPTION" }
+`;
+
+  try {
+    const raw = await queryUniOllama(prompt);
+    const cleaned = cleanModelOutput(raw);
+    return JSON.parse(cleaned);
+  } catch (err) {
+    console.error('[Uni Ollama Error]', err);
+    return { latin_name: '', description: '' };
+  }
+}
 module.exports = {
   generateMedicalInfo,
-  generateMedicalInfoOllama
+  generateMedicalInfoOllama,
+  generateMedicalInfoUniOllama
 };
